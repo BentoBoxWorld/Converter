@@ -1,0 +1,16 @@
+###########################################################################################
+# This is a YML file. Be careful when editing. Check your edits in a YAML checker like    #
+# the one at http://yaml-online-parser.appspot.com                                        #
+###########################################################################################
+
+a2b:
+  commands:
+    admin:
+      help:
+        parameters: ""
+        description: "admin command"
+      convert:
+        parameters: ""
+        description: "start the conversion of ASkyBlock to BSkyBlock"
+        
+    
