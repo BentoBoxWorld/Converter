@@ -1,6 +1,8 @@
-name: A2B
+name: a2b
 main: world.bentobox.a2b.A2B
 version: ${version}
 metrics: true
 
 authors: tastybento
+
+depend: BSkyBlock
