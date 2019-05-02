@@ -20,6 +20,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 
 import world.bentobox.bentobox.api.commands.CompositeCommand;
+import world.bentobox.bentobox.api.flags.Flag;
 import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.Database;
 import world.bentobox.bentobox.database.objects.Island;
@@ -47,6 +48,8 @@ public class AdminConvertCommand extends CompositeCommand {
 	private YamlConfiguration config;
 
 	private BSkyBlock gm;
+
+	private Map<Flag, Integer> defaultIslandProtectionFlags;
 
 	public AdminConvertCommand(CompositeCommand parent, BSkyBlock gm) {
 		super(parent, "convert");
@@ -147,6 +150,75 @@ public class AdminConvertCommand extends CompositeCommand {
 		s.setIslandStartZ(config.getInt("island.startz",0));
 		s.setSeaHeight(config.getInt("island.sealevel") != 0 ? config.getInt("island.sealevel") - 1 : 0);
 		s.setIslandHeight(config.getInt("island.islandlevel"));
+
+		Flags.PREVENT_TELEPORT_WHEN_FALLING.setSetting(getWorld(), config.getBoolean("general.allowfallingteleport", true));
+		Flags.GEO_LIMIT_MOBS.setSetting(getWorld(), config.getBoolean("general.restrictwither", true));
+		Flags.OBSIDIAN_SCOOPING.setSetting(getWorld(), config.getBoolean("general.allowobsidianscooping", true));
+		Flags.OFFLINE_REDSTONE.setSetting(getWorld(), config.getBoolean("general.disableofflineredstone"));
+		Flags.PISTON_PUSH.setSetting(getWorld(), config.getBoolean("general.allowTNTpushing", true));
+		Flags.ANVIL.setSetting(getWorld(), config.getBoolean("protection.world.ANVIL"));
+		Flags.ARMOR_STAND.setSetting(getWorld(), config.getBoolean("protection.world.ARMOR_STAND"));
+		Flags.BEACON.setSetting(getWorld(), config.getBoolean("protection.world.BEACON"));
+		Flags.BED.setSetting(getWorld(), config.getBoolean("protection.world.BED"));
+		Flags.BREAK_BLOCKS.setSetting(getWorld(), config.getBoolean("protection.world.BREAK_BLOCKS"));
+		Flags.BREEDING.setSetting(getWorld(), config.getBoolean("protection.world.BREEDING"));
+		Flags.BREWING.setSetting(getWorld(), config.getBoolean("protection.world.BREWING"));
+		Flags.BUCKET.setSetting(getWorld(), config.getBoolean("protection.world.BUCKET"));
+		Flags.COLLECT_LAVA.setSetting(getWorld(), config.getBoolean("protection.world.COLLECT_LAVA"));
+		Flags.COLLECT_WATER.setSetting(getWorld(), config.getBoolean("protection.world.COLLECT_WATER"));
+		Flags.CONTAINER.setSetting(getWorld(), config.getBoolean("protection.world.CHEST"));
+		Flags.CHORUS_FRUIT.setSetting(getWorld(), config.getBoolean("protection.world.CHORUS_FRUIT"));
+		Flags.CRAFTING.setSetting(getWorld(), config.getBoolean("protection.world.CRAFTING"));
+		Flags.CREEPER_DAMAGE.setSetting(getWorld(), config.getBoolean("protection.world.CREEPER_PAIN"));
+		Flags.CROP_TRAMPLE.setSetting(getWorld(), config.getBoolean("protection.world.CROP_TRAMPLE"));
+		Flags.DOOR.setSetting(getWorld(), config.getBoolean("protection.world.DOOR"));
+		Flags.TRAPDOOR.setSetting(getWorld(), config.getBoolean("protection.world.DOOR"));
+		Flags.EGGS.setSetting(getWorld(), config.getBoolean("protection.world.EGGS"));
+		Flags.ENCHANTING.setSetting(getWorld(), config.getBoolean("protection.world.ENCHANTING"));
+		Flags.ENDER_PEARL.setSetting(getWorld(), config.getBoolean("protection.world.ENDER_PEARL"));
+		Flags.ENTER_EXIT_MESSAGES.setSetting(getWorld(), config.getBoolean("protection.world.ENTER_EXIT_MESSAGES"));
+		Flags.FIRE_IGNITE.setSetting(getWorld(), config.getBoolean("protection.world.FIRE"));
+		Flags.FIRE_SPREAD.setSetting(getWorld(), config.getBoolean("protection.world.FIRE_SPREAD"));
+		Flags.FIRE_EXTINGUISH.setSetting(getWorld(), config.getBoolean("protection.world.FIRE_EXTINGUISH"));
+		Flags.FIRE_BURNING.setSetting(getWorld(), config.getBoolean("protection.world.FIRE"));
+		Flags.FURNACE.setSetting(getWorld(), config.getBoolean("protection.world.FURNACE"));
+		Flags.GATE.setSetting(getWorld(), config.getBoolean("protection.world.GATE"));
+		Flags.MOUNT_INVENTORY.setSetting(getWorld(), config.getBoolean("protection.world.HORSE_INVENTORY"));
+		Flags.RIDING.setSetting(getWorld(), config.getBoolean("protection.world.HORSE_RIDING"));
+		Flags.HURT_ANIMALS.setSetting(getWorld(), config.getBoolean("protection.world.HURT_MOBS"));
+		Flags.HURT_VILLAGERS.setSetting(getWorld(), config.getBoolean("protection.world.HURT_MOBS"));
+		Flags.HURT_MONSTERS.setSetting(getWorld(), config.getBoolean("protection.world.HURT_MONSTERS"));
+		Flags.LEASH.setSetting(getWorld(), config.getBoolean("protection.world.LEASH"));
+		Flags.LEVER.setSetting(getWorld(), config.getBoolean("protection.world.LEAVER_BUTTON"));
+		Flags.BUTTON.setSetting(getWorld(), config.getBoolean("protection.world.LEAVER_BUTTON"));
+		Flags.MILKING.setSetting(getWorld(), config.getBoolean("protection.world.MILKING"));
+		Flags.ANIMAL_SPAWN.setSetting(getWorld(), config.getBoolean("protection.world.MOB_SPAWN"));
+		Flags.MONSTER_SPAWN.setSetting(getWorld(), config.getBoolean("protection.world.MONSTER_SPAWN"));
+		Flags.JUKEBOX.setSetting(getWorld(), config.getBoolean("protection.world.MUSIC"));
+		Flags.NOTE_BLOCK.setSetting(getWorld(), config.getBoolean("protection.world.MUSIC"));
+		Flags.PLACE_BLOCKS.setSetting(getWorld(), config.getBoolean("protection.world.PLACE_BLOCKS"));
+		Flags.END_PORTAL.setSetting(getWorld(), config.getBoolean("protection.world.PORTAL"));
+		Flags.NETHER_PORTAL.setSetting(getWorld(), config.getBoolean("protection.world.PORTAL"));
+		Flags.PRESSURE_PLATE.setSetting(getWorld(), config.getBoolean("protection.world.PRESSURE_PLATE"));
+		Flags.REDSTONE.setSetting(getWorld(), config.getBoolean("protection.world.REDSTONE"));
+		Flags.SPAWN_EGGS.setSetting(getWorld(), config.getBoolean("protection.world.SPAWN_EGGS"));
+		Flags.SHEARING.setSetting(getWorld(), config.getBoolean("protection.world.SHEARING"));
+		Flags.TRADING.setSetting(getWorld(), config.getBoolean("protection.world.VILLAGER_TRADING"));
+		Flags.ITEM_DROP.setSetting(getWorld(), config.getBoolean("protection.world.VISITOR_ITEM_DROP"));
+		Flags.ITEM_PICKUP.setSetting(getWorld(), config.getBoolean("protection.world.VISITOR_ITEM_PICKUP"));
+		// Default island protection flags
+		defaultIslandProtectionFlags = new HashMap<>();
+		ConfigurationSection islandProtection = config.getConfigurationSection("protection.island");
+		if (islandProtection != null) {
+			for (String flag : islandProtection.getKeys(false)) {
+				getPlugin().getFlagsManager().getFlag(flag).ifPresent(f -> 
+				defaultIslandProtectionFlags.put(f, islandProtection.getBoolean(flag) ? RanksManager.MEMBER_RANK : RanksManager.VISITOR_RANK));
+			}
+		}
+		// Hidden flags are all those not listed
+		List<String> hiddenFlags = Flags.values().stream().filter(key -> !defaultIslandProtectionFlags.containsKey(key)).map(f -> f.getID()).collect(Collectors.toList());
+		s.setHiddenFlags(hiddenFlags);
+		
 		user.sendRawMessage("Saving BSkyBlock config");
 		gm.saveWorldSettings();
 
@@ -257,16 +329,17 @@ public class AdminConvertCommand extends CompositeCommand {
 		island.setUpdatedDate(System.currentTimeMillis());
 		island.setGameMode(getAddon().getDescription().getName());
 		island.setRange(config.getInt("island.distance") / 2);
+		island.setFlags(defaultIslandProtectionFlags);
 		islands.put(uuid, island);
 	}
-	
+
 	private void convertWarps(User user) throws FileNotFoundException, IOException, InvalidConfigurationException {
 		// Warps
 		Warp warpAddon = getAddon().getAddonByName("WelcomeWarps").map(Warp.class::cast).orElse(null);
 		if (warpAddon == null){
 			user.sendRawMessage("Warp addon not found.");
 			return;
-        }
+		}
 		YamlConfiguration warps = new YamlConfiguration();
 		File warpFile = new File(getPlugin().getDataFolder(), "../ASkyBlock/warps.yml");
 		if (!warpFile.exists()) {
