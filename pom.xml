@@ -100,6 +100,12 @@
             <version>1.4.2</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>world.bentobox</groupId>
+            <artifactId>warps</artifactId>
+            <version>1.4.0</version>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
 
 	<build>
