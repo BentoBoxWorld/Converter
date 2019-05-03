@@ -41,7 +41,7 @@ Note that if you world is LARGE then you will need to change the timeout of the 
 6. Place the **BSkyBlock** addon, the **Warps** addon and the **a2b** addon into the BentoBox addons folder.
 7. Restart the server, again with the **--forceUpgrade** option.
 8. Once the server is loaded and you see the BentoBox logo, start conversion in the console by entering: **bsb convert**.
-9. After the conversion is complete, stop the server.
+9. After the conversion is complete, stop the server. VERY IMPORTANT. STOP THE SERVER! DO NOT RELOAD!!! This will register the correct world generator.
 10. Edit the BSkyBlock config.yml as you see fit in the settings.
 11. Edit spigot.yml and return **timeout-time:** to something small, like 60.
 12. (Optional) Remove the a2b addon and the default BSkyBlock world folders that were created.
