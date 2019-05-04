@@ -47,6 +47,5 @@ Note that if you world is LARGE then you will need to change the timeout of the 
 12. (Optional) Remove the a2b addon and the default BSkyBlock world folders that were created.
 12. Restart the server. You do not need to use the forceUpgrade option any more. BSkyBlock addon will use the ASkyBlock world.
 
-**Note:** BSkyBlock cannot run as the only world on your server so do not set bukkit.yml to try to do that because it won't work.
-**Note2:** Bentobox uses PAPI for placeholders. If you are interested in using placeholders, read the wikis.
+**Note:** Bentobox uses PAPI for placeholders. If you are interested in using placeholders, read the wikis.
 
