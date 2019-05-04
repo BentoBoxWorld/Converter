@@ -6,7 +6,7 @@
 
 	<groupId>world.bentobox</groupId>
 	<artifactId>a2b</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 
 	<name>a2b</name>
 	<description>ASkyBlock to BSkyBlock converter add-on for BentoBox.</description>
