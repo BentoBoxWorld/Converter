@@ -347,15 +347,17 @@ public class AdminConvertCommand extends CompositeCommand {
             return;
         }
         warps.load(warpFile);
-        if (!warps.contains("warps")) {
-            user.sendRawMessage("No warps found in warp file.");
-            return;
-        }
-        ConfigurationSection w = warps.getConfigurationSection("warps");
-        for (String uuid: w.getKeys(false)) {
-            UUID playerUUID = UUID.fromString(uuid);
-            Location loc = Util.getLocationString(w.getString(uuid));
-            warpAddon.getWarpSignsManager().addWarp(playerUUID, loc);
+        if (warps.isConfigurationSection("warps")) {
+            ConfigurationSection w = warps.getConfigurationSection("warps");
+            for (String uuid: w.getKeys(false)) {
+                UUID playerUUID = UUID.fromString(uuid);
+                Location loc = Util.getLocationString(w.getString(uuid, ""));
+                if (loc != null) {
+                    warpAddon.getWarpSignsManager().addWarp(playerUUID, loc);
+                }
+            }
+        } else {
+            user.sendRawMessage("No warps.");
         }
     }
 }
