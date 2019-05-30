@@ -1,6 +1,12 @@
 # a2b
 ASkyBlock to BSkyBlock converter.
 
+## Compatibility
+
+This converter should be used with the latest version of BentoBox and BSkyBlock.
+
+## Introduction
+
 This converter takes the ASkyBlock data files and creates new versions in the BSkyBlock/BentoBox database. The following items are converted:
 
 * Players and teams
