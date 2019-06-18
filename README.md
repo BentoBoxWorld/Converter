@@ -1,4 +1,4 @@
-# a2b
+# Converter
 ASkyBlock to BSkyBlock converter.
 
 ## Compatibility
@@ -16,8 +16,8 @@ This converter takes the ASkyBlock data files and creates new versions in the BS
 
 The following are not converted:
 
-* Challenges - not supported in BSkyBlock itself. Use the BentoBox Challenge addon.
-* Schematics - not supported in BSkyBlock. Use BentoBox schems instead.
+* Challenges - not supported in BSkyBlock itself. Use the BentoBox Challenge addon. It can import ASkyBlock challenges.
+* Schematics - not supported in BSkyBlock. Use BentoBox blueprints instead.
 * Biomes - not supported in BSkyBlock itself. Use the Biome addon instead.
 * Magic Cobblestone - not supported in BSkyBlock itself. An addon for this is in progress
 * Acid water or rain settings - not supported in BSkyBlock.
@@ -37,6 +37,8 @@ If your current server runs on 1.12.2 then you must upgrade your server to 1.13.
 **Steps**
 
 Note that if you world is LARGE then you will need to change the timeout of the server so that the watchdog timer does not stop the server during conversion.
+
+*You remembered to make a backup of your data right?*
 
 0. Edit spigot.yml and change **timeout-time:** to something large, like 60000.
 1. Stop the server and add the Spigot 1.13.2 server jar to your server folder.
