@@ -129,7 +129,6 @@ public class AdminConvertCommand extends CompositeCommand {
         s.setMaxIslands(config.getInt("general.maxIslands"));
         s.setNetherGenerate(config.getBoolean("general.createnether", true));
         s.setNetherIslands(config.getBoolean("general.newnether", true));
-        s.setNetherTrees(config.getBoolean("general.nethertrees", true));
         s.setNetherRoof(config.getBoolean("general.netherroof", true));
         s.setNetherSpawnRadius(config.getInt("general.netherspawnradius", 25));
         s.setVisitorBannedCommands(config.getStringList("general.visitorbannedcommands"));
