@@ -56,6 +56,7 @@ Note that if you world is LARGE then you will need to change the timeout of the 
 13. Restart the server. You do not need to use the forceUpgrade option any more. BSkyBlock addon will use the ASkyBlock world.
 
 **Note:** Bentobox uses PAPI for placeholders. If you are interested in using placeholders, read the wikis.
+
 **Note:** Challenges and Warps are not required. Converter can work without them, but data will not be converted.
 
 
