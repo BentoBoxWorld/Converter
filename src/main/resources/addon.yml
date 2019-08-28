@@ -6,3 +6,5 @@ metrics: true
 authors: tastybento
 
 depend: BSkyBlock
+
+softdepend: WelcomeWarps Challenges

@@ -19,6 +19,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 
+import world.bentobox.a2b.converter.ChallengesConverter;
 import world.bentobox.bentobox.api.commands.CompositeCommand;
 import world.bentobox.bentobox.api.flags.Flag;
 import world.bentobox.bentobox.api.user.User;
@@ -50,6 +51,12 @@ public class AdminConvertCommand extends CompositeCommand {
     private BSkyBlock gm;
 
     private Map<Flag, Integer> defaultIslandProtectionFlags;
+
+    /**
+     * Init ChallengeConverter class.
+     */
+    private final ChallengesConverter challengesConverter = new ChallengesConverter();
+
 
     public AdminConvertCommand(CompositeCommand parent, BSkyBlock gm) {
         super(parent, "convert");
@@ -102,6 +109,13 @@ public class AdminConvertCommand extends CompositeCommand {
             getAddon().logError("Config conversion error: " + e.getMessage());
             return false;
         }
+
+        if (this.challengesConverter.canConvert())
+        {
+            user.sendRawMessage("Converting challenges");
+            this.challengesConverter.convertChallengesAndLevels(user, this.gm.getOverWorld());
+        }
+
         user.sendRawMessage("Converting players and islands");
         try {
             convertplayers(user);
@@ -275,6 +289,14 @@ public class AdminConvertCommand extends CompositeCommand {
                 }
                 // Handle island
                 processIsland(user, uuid, player);
+
+                // Handle challenges
+                if (this.challengesConverter.canConvert())
+                {
+                    this.challengesConverter.convertUserChallenges(user, player, this.gm);
+                    user.sendRawMessage("User challenges converted");
+                }
+
                 // Rename file
                 file.renameTo(new File(file.getParent(), file.getName() + ".done"));
             } catch (Exception e) {

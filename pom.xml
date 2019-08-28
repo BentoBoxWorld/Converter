@@ -59,15 +59,17 @@
         <powermock.version>2.0.2</powermock.version>
         <!-- More visible way how to change dependency versions -->
         <spigot.version>1.14.4-R0.1-SNAPSHOT</spigot.version>
-        <bentobox.version>1.6.0</bentobox.version>
+        <bentobox.version>1.7.0-SNAPSHOT</bentobox.version>
         <bskyblock.version>1.6.0</bskyblock.version>
         <warps.version>1.6.0</warps.version>
+        <challenges.version>0.8.0-SNAPSHOT</challenges.version>
+        <itemconverter.version>22fd6f5ee4</itemconverter.version>
         <!-- Revision variable removes warning about dynamic version -->
         <revision>${build.version}-SNAPSHOT</revision>
         <!-- Do not change unless you want different name for local builds. -->
         <build.number>-LOCAL</build.number>
         <!-- This allows to change between versions. -->
-        <build.version>1.6.0</build.version>
+        <build.version>1.7.0</build.version>
     </properties>
 
     <!-- Profiles will allow to automatically change build version. -->
@@ -149,6 +151,15 @@
             <id>codemc-public</id>
             <url>https://repo.codemc.org/repository/maven-public/</url>
         </repository>
+        <!--    Item Converter API    -->
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+<!--        <repository>-->
+<!--            <id>minebench-repo</id>-->
+<!--            <url>https://repo.minebench.de/</url>-->
+<!--        </repository>-->
     </repositories>
 
     <dependencies>
@@ -196,6 +207,23 @@
             <version>${warps.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>world.bentobox</groupId>
+            <artifactId>challenges</artifactId>
+            <version>${challenges.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--   Item Converter. Used JitPack as my version is using 1.14 data values    -->
+        <dependency>
+            <groupId>com.github.BONNe.IDConverter</groupId>
+            <artifactId>application</artifactId>
+            <version>${itemconverter.version}</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>de.themoep.idconverter</groupId>-->
+<!--            <artifactId>mappings</artifactId>-->
+<!--            <version>${itemconverter.version}</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>
