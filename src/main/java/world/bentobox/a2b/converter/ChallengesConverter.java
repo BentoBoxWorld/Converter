@@ -9,7 +9,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.user.User;
@@ -18,6 +23,9 @@ import world.bentobox.bskyblock.BSkyBlock;
 import world.bentobox.challenges.ChallengesAddon;
 import world.bentobox.challenges.database.object.Challenge;
 import world.bentobox.challenges.database.object.ChallengeLevel;
+import world.bentobox.challenges.database.object.requirements.InventoryRequirements;
+import world.bentobox.challenges.database.object.requirements.IslandRequirements;
+import world.bentobox.challenges.database.object.requirements.OtherRequirements;
 import world.bentobox.challenges.utils.GuiUtils;
 import world.bentobox.challenges.utils.Utils;
 
@@ -186,7 +194,6 @@ public class ChallengesConverter
 					Objects.requireNonNull(details.getString("type", "INVENTORY")).toUpperCase()));
 			}
 
-			newChallenge.setTakeItems(details.getBoolean("takeItems", true));
 			newChallenge.setRewardText(details.getString("rewardText", ""));
 			newChallenge.setRewardCommands(details.getStringList("rewardcommands"));
 			newChallenge.setRewardMoney(details.getInt("moneyReward", 0));
@@ -197,22 +204,37 @@ public class ChallengesConverter
 			newChallenge.setRepeatExperienceReward(details.getInt("repeatExpReward"));
 			newChallenge.setRepeatRewardCommands(details.getStringList("repeatrewardcommands"));
 			newChallenge.setMaxTimes(details.getInt("maxtimes"));
-
-			newChallenge.setRequiredMoney(details.getInt("requiredMoney"));
-			newChallenge.setRequiredExperience(details.getInt("requiredExp"));
+			
 			String reqItems = details.getString("requiredItems", "");
 
 			if (newChallenge.getChallengeType().equals(Challenge.ChallengeType.INVENTORY))
 			{
-				newChallenge.setRequiredItems(this.parseItems(Objects.requireNonNull(reqItems)));
+				InventoryRequirements requirements = new InventoryRequirements();
+
+				requirements.setRequiredItems(this.parseItems(Objects.requireNonNull(reqItems)));
+				requirements.setTakeItems(details.getBoolean("takeItems", true));
+
+				newChallenge.setRequirements(requirements);
 			}
 			else if (newChallenge.getChallengeType().equals(Challenge.ChallengeType.OTHER))
 			{
-				newChallenge.setRequiredIslandLevel(Long.parseLong(Objects.requireNonNull(reqItems)));
+				OtherRequirements requirements = new OtherRequirements();
+
+				requirements.setRequiredIslandLevel(Long.parseLong(Objects.requireNonNull(reqItems)));
+				requirements.setRequiredMoney(details.getInt("requiredMoney"));
+				requirements.setRequiredExperience(details.getInt("requiredExp"));
+
+				requirements.setTakeMoney(details.getBoolean("takeItems", true));
+				requirements.setTakeExperience(details.getBoolean("takeItems", true));
+
+				newChallenge.setRequirements(requirements);
 			}
 			else if (newChallenge.getChallengeType().equals(Challenge.ChallengeType.ISLAND))
 			{
-				this.parseEntitiesAndBlocks(newChallenge, Objects.requireNonNull(reqItems));
+				IslandRequirements requirements = new IslandRequirements();
+				this.parseEntitiesAndBlocks(requirements, Objects.requireNonNull(reqItems));
+
+				newChallenge.setRequirements(requirements);
 			}
 
 			newChallenge.setRewardItems(parseItems(details.getString("itemReward", "")));
@@ -238,10 +260,10 @@ public class ChallengesConverter
 	/**
 	 * Run through entity types and materials and try to match to the string given
 	 *
-	 * @param challenge - challenge to be adjusted
+	 * @param requirements - requirements to be adjusted
 	 * @param string - string from YAML file
 	 */
-	private void parseEntitiesAndBlocks(Challenge challenge, String string)
+	private void parseEntitiesAndBlocks(IslandRequirements requirements, String string)
 	{
 		Map<EntityType, Integer> requiredEntities = new EnumMap<>(EntityType.class);
 		Map<Material, Integer> requiredBlocks = new EnumMap<>(Material.class);
@@ -281,8 +303,8 @@ public class ChallengesConverter
 			}
 		}
 
-		challenge.setRequiredEntities(requiredEntities);
-		challenge.setRequiredBlocks(requiredBlocks);
+		requirements.setRequiredEntities(requiredEntities);
+		requirements.setRequiredBlocks(requiredBlocks);
 	}
 
 
