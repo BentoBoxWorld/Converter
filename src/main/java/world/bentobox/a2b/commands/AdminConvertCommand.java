@@ -356,7 +356,7 @@ public class AdminConvertCommand extends CompositeCommand {
 
     private void convertWarps(User user) throws FileNotFoundException, IOException, InvalidConfigurationException {
         // Warps
-        Warp warpAddon = getAddon().getAddonByName("WelcomeWarps").map(Warp.class::cast).orElse(null);
+        Warp warpAddon = getAddon().getAddonByName("Warps").map(Warp.class::cast).orElse(null);
         if (warpAddon == null){
             user.sendRawMessage("Warp addon not found.");
             return;
