@@ -116,14 +116,14 @@
             <id>sonar</id>
             <properties>
                 <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-                <sonar.organization>tastybento-github</sonar.organization>
+                <sonar.organization>bentobox-world</sonar.organization>
             </properties>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.sonarsource.scanner.maven</groupId>
                         <artifactId>sonar-maven-plugin</artifactId>
-                        <version>3.4.1.1168</version>
+                        <version>3.6.0.1398</version>
                         <executions>
                             <execution>
                                 <phase>verify</phase>
@@ -298,17 +298,28 @@
                 <version>2.8.2</version>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.1</version>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.3</version>
                 <configuration>
-                    <minimizeJar>true</minimizeJar>
+                    <append>true</append>
+                    <excludes>
+                        <!-- This is required to prevent Jacoco from adding 
+                            synthetic fields to a JavaBean class (causes errors in testing) -->
+                        <exclude>**/*Names*</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <id>pre-unit-test</id>
                         <goals>
-                            <goal>shade</goal>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>post-unit-test</id>
+                        <goals>
+                            <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
