@@ -25,14 +25,11 @@ public class A2B extends Addon {
     public void onEnable(){
         if(getAddonByName("BSkyBlock").map(BSkyBlock.class::cast).map(gm -> {
             // Register commands
-            gm.getAdminCommand().ifPresent(adminCommand ->  {
-                new AdminConvertCommand(adminCommand, gm);
-            });
+            gm.getAdminCommand().ifPresent(adminCommand -> new AdminConvertCommand(adminCommand, gm));
             return false;
         }).orElse(true)) {
             logError("a2b requires BSkyBlock addon to be present! Disabling...");
             this.setState(State.DISABLED);
-            return;
         }
 
     }
@@ -46,7 +43,10 @@ public class A2B extends Addon {
             return;
         }
         // Make a destination folder
-        this.getDataFolder().mkdirs();
+        if (!this.getDataFolder().mkdirs()) {
+            logError("Cannot make data folder!");
+            return;
+        }
         // Make new config
         File newConfig = new File(getDataFolder(), "config.yml");
         // Copy to this folder
@@ -55,7 +55,6 @@ public class A2B extends Addon {
         } catch (IOException e1) {
             logError("Cannot copy ASkyBlock config.yml file to a2b data folder! " + e1.getMessage());
             this.setState(State.DISABLED);
-            return;
         }
     }
 
