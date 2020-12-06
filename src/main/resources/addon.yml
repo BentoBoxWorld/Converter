@@ -2,9 +2,10 @@ name: a2b
 main: world.bentobox.a2b.A2B
 version: ${version}
 metrics: true
+api-version: 1.15
 
 authors: tastybento
 
 depend: BSkyBlock
 
-softdepend: WelcomeWarps Challenges
+softdepend: Warps Challenges

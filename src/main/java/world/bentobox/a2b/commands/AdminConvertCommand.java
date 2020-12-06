@@ -162,7 +162,9 @@ public class AdminConvertCommand extends CompositeCommand {
         s.setIslandStartX(config.getInt("island.startx",0));
         s.setIslandStartZ(config.getInt("island.startz",0));
         s.setSeaHeight(config.getInt("island.sealevel") != 0 ? config.getInt("island.sealevel") - 1 : 0);
-        s.setIslandHeight(config.getInt("island.islandlevel"));
+        // ASkyBlock has its bedrock block center 5 below the island height
+        int height = Math.max(0, config.getInt("island.islandlevel") - 5);
+        s.setIslandHeight(height);
 
         Flags.PREVENT_TELEPORT_WHEN_FALLING.setSetting(getWorld(), config.getBoolean("general.allowfallingteleport", true));
         Flags.GEO_LIMIT_MOBS.setSetting(getWorld(), config.getBoolean("general.restrictwither", true));
@@ -205,8 +207,8 @@ public class AdminConvertCommand extends CompositeCommand {
         Flags.LEVER.setSetting(getWorld(), config.getBoolean("protection.world.LEAVER_BUTTON"));
         Flags.BUTTON.setSetting(getWorld(), config.getBoolean("protection.world.LEAVER_BUTTON"));
         Flags.MILKING.setSetting(getWorld(), config.getBoolean("protection.world.MILKING"));
-        Flags.ANIMAL_SPAWN.setSetting(getWorld(), config.getBoolean("protection.world.MOB_SPAWN"));
-        Flags.MONSTER_SPAWN.setSetting(getWorld(), config.getBoolean("protection.world.MONSTER_SPAWN"));
+        Flags.ANIMAL_NATURAL_SPAWN.setSetting(getWorld(), config.getBoolean("protection.world.MOB_SPAWN"));
+        Flags.MONSTER_NATURAL_SPAWN.setSetting(getWorld(), config.getBoolean("protection.world.MONSTER_SPAWN"));
         Flags.JUKEBOX.setSetting(getWorld(), config.getBoolean("protection.world.MUSIC"));
         Flags.NOTE_BLOCK.setSetting(getWorld(), config.getBoolean("protection.world.MUSIC"));
         Flags.PLACE_BLOCKS.setSetting(getWorld(), config.getBoolean("protection.world.PLACE_BLOCKS"));
@@ -278,11 +280,11 @@ public class AdminConvertCommand extends CompositeCommand {
                     // New player
                     p.setUniqueId(uniqueId);
                     p.setPlayerName(player.getString("playerName"));
-                    names.saveObject(new Names(player.getString("playerName"), uuid));
+                    names.saveObjectAsync(new Names(player.getString("playerName"), uuid));
                 }
                 p.getDeaths().putIfAbsent(config.getString("general.worldName"), player.getInt("deaths"));
                 p.setLocale(player.getString("locale"));
-                handler.saveObject(p);
+                handler.saveObjectAsync(p);
                 count++;
                 if (count % 10 == 0) {
                     user.sendRawMessage("Saved " + (count++) + " players");
