@@ -59,8 +59,8 @@
         <powermock.version>2.0.2</powermock.version>
         <!-- More visible way how to change dependency versions -->
         <spigot.version>1.14.4-R0.1-SNAPSHOT</spigot.version>
-        <bentobox.version>1.15.0</bentobox.version>
-        <bskyblock.version>1.14.3</bskyblock.version>
+        <bentobox.version>1.16.1</bentobox.version>
+        <bskyblock.version>1.14.4</bskyblock.version>
         <warps.version>1.10.0</warps.version>
         <challenges.version>0.8.0-SNAPSHOT</challenges.version>
         <itemconverter.version>22fd6f5ee4</itemconverter.version>
