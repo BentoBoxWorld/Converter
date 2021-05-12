@@ -341,17 +341,17 @@ public class AdminConvertCommand extends CompositeCommand {
         // Deal with owners or team leaders
         Island island = new Island();
         island.setUniqueId(getWorld().getName() + "_i_" + UUID.randomUUID().toString());
+        island.setCenter(Util.getLocationString(player.getString("islandLocation")));
+        island.setRange(config.getInt("island.distance") / 2);
         island.setOwner(player.getString("teamLeader").isEmpty() ? uuid : UUID.fromString(player.getString("teamLeader")));
         island.setProtectionRange(protectionRange / 2);
         island.setSpawn(isSpawn);
-        island.setCenter(Util.getLocationString(player.getString("islandLocation")));
         island.setSettingsFlag(Flags.LOCK, isLocked);
         player.getStringList("members").stream().map(UUID::fromString).forEach(island::addMember);
         island.setRank(island.getOwner(), RanksManager.OWNER_RANK);
         island.setCreatedDate(System.currentTimeMillis());
         island.setUpdatedDate(System.currentTimeMillis());
         island.setGameMode(getAddon().getDescription().getName());
-        island.setRange(config.getInt("island.distance") / 2);
         island.setFlags(defaultIslandProtectionFlags);
         islands.put(uuid, island);
     }
