@@ -341,7 +341,7 @@ public class AdminConvertCommand extends CompositeCommand {
         // Deal with owners or team leaders
         Island island = new Island();
         island.setUniqueId(getWorld().getName() + "_i_" + UUID.randomUUID().toString());
-        island.setCenter(Util.getLocationString(player.getString("islandLocation")));
+        island.setCenter(this.getLocationFromString(player.getString("islandLocation")));
         island.setRange(config.getInt("island.distance") / 2);
         island.setOwner(player.getString("teamLeader").isEmpty() ? uuid : UUID.fromString(player.getString("teamLeader")));
         island.setProtectionRange(protectionRange / 2);
@@ -374,13 +374,45 @@ public class AdminConvertCommand extends CompositeCommand {
             ConfigurationSection w = warps.getConfigurationSection("warps");
             for (String uuid: w.getKeys(false)) {
                 UUID playerUUID = UUID.fromString(uuid);
-                Location loc = Util.getLocationString(w.getString(uuid, ""));
+                Location loc = this.getLocationFromString(w.getString(uuid, ""));
                 if (loc != null) {
                     warpAddon.getWarpSignsManager().addWarp(playerUUID, loc);
                 }
             }
         } else {
             user.sendRawMessage("No warps.");
+        }
+    }
+
+
+    /**
+     * This method parses given string to a location.
+     * This wrapper is necessary because some older ASkyBlock islands contains only 4 parts, instead of required 6.
+     * @param location String that must be parsed.
+     * @return Location that is made from string.
+     */
+    private Location getLocationFromString(String location)
+    {
+        if (location == null || location.isEmpty())
+        {
+            getAddon().logError("Problem parsing location from string.");
+            return null;
+        }
+
+        String[] parts = location.split(":");
+
+        if (parts.length == 4)
+        {
+            return Util.getLocationString(location + ":0:0");
+        }
+        else if (parts.length == 6)
+        {
+            return Util.getLocationString(location);
+        }
+        else
+        {
+            getAddon().logError("Problem parsing location from string.");
+            return null;
         }
     }
 }
