@@ -112,8 +112,17 @@ public class AdminConvertCommand extends CompositeCommand {
 
         if (this.challengesConverter.canConvert())
         {
-            user.sendRawMessage("Converting challenges");
-            this.challengesConverter.convertChallengesAndLevels(user, this.gm.getOverWorld());
+            try
+            {
+                user.sendRawMessage("Converting challenges");
+                this.challengesConverter.convertChallengesAndLevels(user, this.gm.getOverWorld());
+            }
+            catch (Exception e)
+            {
+                user.sendRawMessage("Could not convert Challenges. Error: " + e.getMessage());
+                getAddon().logError("Challenge conversion error: " + e.getMessage());
+                // Challenge conversion failing should not affect other conversions.
+            }
         }
 
         user.sendRawMessage("Converting players and islands");
@@ -293,16 +302,24 @@ public class AdminConvertCommand extends CompositeCommand {
                 processIsland(user, uuid, player);
 
                 // Handle challenges
-                if (this.challengesConverter.canConvert())
+                try
                 {
-                    this.challengesConverter.convertUserChallenges(user, player, this.gm);
-                    user.sendRawMessage("User challenges converted");
+                    if (this.challengesConverter.canConvert())
+                    {
+                        this.challengesConverter.convertUserChallenges(User.getInstance(uuid), player, this.gm);
+                        user.sendRawMessage("User challenges converted");
+                    }
+                }
+                catch (Exception e)
+                {
+                    user.sendRawMessage("Failed on converting user challenges.");
+                    // Do not mark as failed.
                 }
 
                 // Rename file
                 file.renameTo(new File(file.getParent(), file.getName() + ".done"));
             } catch (Exception e) {
-                getAddon().logError("Error trying to import player file " + file.getName() + ": " + e.getMessage());
+                e.printStackTrace();
             }
         }
         user.sendRawMessage("Processing teams");
