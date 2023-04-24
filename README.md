@@ -1,3 +1,5 @@
+# This software is not supported any more and may not work. Use at your own risk.
+
 # Converter
 ASkyBlock to BSkyBlock converter.
 
